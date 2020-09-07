@@ -1,10 +1,12 @@
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
 public class GeoFact {
 
-	private Map<String, String> capitals = new HashMap<>();
+	private Map<String, List<String>> capitals = new HashMap<>();
 	private Map<String, String> countries = new HashMap<>();
 	
 	public GeoFact() {
@@ -18,7 +20,12 @@ public class GeoFact {
 				String country = scan.nextLine();
 				System.out.println("Capital city:");
 				String city = scan.nextLine();
-				capitals.put(country, city);
+				if (!capitals.containsKey(country)) {
+					capitals.put(country,  new ArrayList<>());
+				}
+				//List<String> cities = capitals.get(country);
+				//cities.add(city);
+				capitals.get(country).add(city);
 				countries.put(city, country);
 			} else if ("s".equals(cmd)) {
 				System.out.println("Country:");
