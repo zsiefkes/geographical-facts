@@ -24,6 +24,24 @@ public class ListingGame {
 				System.out.println("  " + i);
 			}
 		}
+		this.countItems(players);
+	}
+	
+	private void countItems(Map<String, Set<String>> data) {
+		Map<String, Integer> counts = new HashMap<>();
+		for (Map.Entry<String, Set<String>> e : data.entrySet()) {
+			for (String s : e.getValue()) {
+				if (counts.containsKey(s)) {
+					counts.put(s, counts.get(s) + 1);
+				} else {
+					counts.put(s, 1);
+				}
+			}
+		}
+		System.out.println("Total appearances:");
+		for (Map.Entry<String, Integer> e : counts.entrySet()) {
+			System.out.println(e.getKey() + ": " + e.getValue());
+		}
 	}
 	
 	private Set<String> oneGame(Scanner scan, String prompt) {
