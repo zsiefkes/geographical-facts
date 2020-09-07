@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -40,6 +41,17 @@ public class ListingGame {
 		players.sort((a,b) -> {
 			return scores.get(b) - scores.get(a);
 		});
+		// As though we wrote:
+/*		class PlayerComparator implements Comparator<String> {
+			Map<String, Integer> scores;
+			public PlayerComparator(Map<String, Integer> ps) {
+				scores = ps;
+			}
+			public int compare(String a, String b) {
+				return scores.get(b) - scores.get(a);
+			}
+		}
+		players.sort(new PlayerComparator(scores));*/
 		return players;
 	}
 	
