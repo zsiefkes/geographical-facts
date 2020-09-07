@@ -41,6 +41,8 @@ public class ListingGame {
 		players.sort((a,b) -> {
 			return scores.get(b) - scores.get(a);
 		});
+		// Even shorter version:
+		players.sort((a,b) -> scores.get(b) - scores.get(a));
 		// As though we wrote:
 /*		class PlayerComparator implements Comparator<String> {
 			Map<String, Integer> scores;
