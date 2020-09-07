@@ -1,5 +1,7 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
@@ -24,10 +26,49 @@ public class ListingGame {
 				System.out.println("  " + i);
 			}
 		}
-		this.countItems(players);
+		Map<String, Integer> itemCounts = this.countItems(players);
+		Map<String, Integer> playerScores = new HashMap<>();
+		this.computePlayerScores(playerScores, players, itemCounts);
+		List<String> playerOrder = this.orderPlayers(playerScores);
+		for (String p : playerOrder) {
+			System.out.println(p + "\t" + playerScores.get(p));
+		}
 	}
 	
-	private void countItems(Map<String, Set<String>> data) {
+	private List<String> orderPlayers(Map<String, Integer> scores) {
+		List<String> players = new ArrayList<>(scores.keySet());
+		players.sort((a,b) -> {
+			return scores.get(b) - scores.get(a);
+		});
+		return players;
+	}
+	
+	private void computePlayerScores(Map<String, Integer> scores, Map<String, Set<String>> players,
+			Map<String, Integer> itemCounts) {
+		for (String p : players.keySet()) {
+			scores.put(p, computeScore(players.get(p),
+					itemCounts));
+		}
+	}
+	
+	private int computeScore(Set<String> items,
+			Map<String, Integer> counts) {
+		int max = 0;
+		for (Map.Entry<String, Integer> e : counts.entrySet()) {
+			if (e.getValue() > max)
+				max = e.getValue();
+		}
+		max = max + 1;
+		int score = 0;
+		for (String i : items) {
+			score = score + (max - counts.get(i));
+		}
+		return score;
+	}
+	
+	
+	
+	private Map<String, Integer> countItems(Map<String, Set<String>> data) {
 		Map<String, Integer> counts = new HashMap<>();
 		for (Map.Entry<String, Set<String>> e : data.entrySet()) {
 			for (String s : e.getValue()) {
@@ -42,6 +83,7 @@ public class ListingGame {
 		for (Map.Entry<String, Integer> e : counts.entrySet()) {
 			System.out.println(e.getKey() + ": " + e.getValue());
 		}
+		return counts;
 	}
 	
 	private Set<String> oneGame(Scanner scan, String prompt) {
