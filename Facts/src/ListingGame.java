@@ -10,7 +10,9 @@ public class ListingGame {
 		Set<String> items = new HashSet<String>();
 		String item = scan.nextLine();
 		while (!"".equals(item)) {
-			items.add(item);
+			if (!items.contains(item)) {
+				System.out.println("You already gave " + item);
+			}
 			item = scan.nextLine();
 		}
 		System.out.println("You had " + items.size() + " unique items.");
